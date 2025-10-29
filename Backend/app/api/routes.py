@@ -7,11 +7,12 @@ from app.core.semantic_kernel_agent import semantic_kernel_orchestrator
 router = APIRouter()
 
 
+
 @router.post("/ask", response_model=QueryResponse)
 async def ask_question(payload: QueryRequest):
-    # Run orchestrator in a threadpool to avoid blocking the event loop
-    result = await run_in_threadpool(semantic_kernel_orchestrator, payload.query, payload.user_id)
-    # Save chat asynchronously (fire-and-forget is fine here), but keep simple sync save
+    # Await the async orchestrator directly
+    result = await semantic_kernel_orchestrator(payload.query, payload.user_id)
+    # Save chat in threadpool (sync function)
     try:
         await run_in_threadpool(
             save_chat,

@@ -3,7 +3,7 @@ from typing import Optional, Dict, Any, List
 import re
 import logging
 from app.core.rag_engine import rag_engine
-from app.llm.llm_client import generate_response
+from app.llm.llm_client import generate_response, classify_intent
 from app.core import actions
 
 logger = logging.getLogger(__name__)
@@ -21,8 +21,13 @@ def retrieve_relevant_docs(query: str, top_k: int = 3):
     return rag_engine.retrieve_relevant_docs(query, top_k=top_k)
 
 
-def semantic_kernel_orchestrator(user_query: str, user_id: Optional[str] = None) -> Dict[str, Any]:
+async def semantic_kernel_orchestrator(user_query: str, user_id: Optional[str] = None) -> Dict[str, Any]:
     """Orchestrate retrieval, intent detection, and action calls.
+    
+    The orchestrator now uses:
+    1. Rule-based greeting detection
+    2. LLM-based intent classification with few-shot examples
+    3. Structured response formatting using templates
     
     Args:
         user_query: The user's question or request
@@ -37,88 +42,70 @@ def semantic_kernel_orchestrator(user_query: str, user_id: Optional[str] = None)
             action_invoked: Name of any action that was called
     """
     try:
-        # Retrieve context from RAG
-        context_docs_raw = retrieve_relevant_docs(user_query, top_k=3)
+        # 1. Classify intent using LLM (with rule-based greeting detection first)
+        intent, confidence = await classify_intent(user_query)
+        logger.info(f"Classified intent: {intent} ({confidence})")
         
-        # Normalize docs: tests may return plain text strings, while RAG returns dicts
-        context_docs: List[Dict[str, Any]] = []
-        for item in (context_docs_raw or []):
-            if isinstance(item, dict):
-                context_docs.append(item)
-            else:
-                context_docs.append({"text": str(item), "metadata": {}, "similarity_score": 0.0})
-
-        # Sort by similarity score if available
+        # 2. For greetings, generate quick response without RAG
+        if intent == "greeting":
+            return {
+                "intent": intent,
+                "response": generate_response(user_query, intent="greeting"),
+                "source_docs": [],
+                "confidence": confidence,
+                "action_invoked": None
+            }
+        
+        # 3. For other intents, retrieve context
+        context_docs = retrieve_relevant_docs(user_query, top_k=3)
+        
+        # Sort by similarity score
         context_docs.sort(key=lambda x: x.get("similarity_score", 0.0), reverse=True)
-        context_text = "\n".join(doc['text'] for doc in context_docs)
+        context_text = "\n\n".join(doc['text'] for doc in context_docs)
 
         # Log relevant docs for debugging
         for doc in context_docs:
             logger.debug(f"Retrieved doc with score {doc.get('similarity_score', 0.0):.2f}: {doc['text'][:100]}...")
 
-        q_lower = user_query.lower()
-
-        # Password reset (high priority, multiple patterns)
-        password_patterns = [
-            "reset password", "forgot password", "change password", 
-            "can't login", "locked out", "reset my password",
-            "forgot my password", "change my password",
-            "lost access", "access to account"
-        ]
-        if any(pattern in q_lower for pattern in password_patterns):
-            resp = actions.reset_password(user_id or "")
-            return {
-                "intent": "reset_password",
-                "response": resp,
-                "source_docs": context_docs,
-                "confidence": 0.99,
-                "action_invoked": "reset_password"
-            }
-
-        # Ticket status checking
-        if any(pattern in q_lower for pattern in ["ticket", "status", "progress", "update on ticket"]):
+        # 4. Process intent-specific actions
+        action_result = None
+        action_name = None
+        
+        # Handle password reset
+        if intent == "password_reset":
+            result = actions.reset_password(user_id or "")
+            action_name = "reset_password"
+            action_result = result
+        
+        # Handle ticket status
+        elif intent == "check_ticket_status":
             ticket_id = _extract_ticket_id(user_query)
             if ticket_id:
-                resp = actions.check_ticket_status(ticket_id)
-                return {
-                    "intent": "check_ticket_status",
-                    "response": resp,
-                    "source_docs": context_docs,
-                    "confidence": 0.95,
-                    "action_invoked": "check_ticket_status"
-                }
-            elif "ticket" in q_lower:
-                # Explicitly about tickets but no ID found
-                return {
-                    "intent": "check_ticket_status",
-                    "response": "Please provide your ticket ID number to check its status.",
-                    "source_docs": context_docs,
-                    "confidence": 0.8,
-                    "action_invoked": None
-                }
-
-        # Summary generation with expanded patterns
-        summary_patterns = ["summarize", "summary", "tldr", "brief overview", "key points"]
-        if any(pattern in q_lower for pattern in summary_patterns):
-            # Extract just the text from context docs for summarization
+                result = actions.check_ticket_status(ticket_id)
+                action_name = "check_ticket_status"
+                action_result = result
+        
+        # Handle summarization
+        elif intent == "generate_summary":
             docs_texts = [d['text'] for d in context_docs]
-            resp = actions.generate_summary(docs_texts)
-            return {
-                "intent": "generate_summary",
-                "response": resp,
-                "source_docs": context_docs,
-                "confidence": 0.9,
-                "action_invoked": "generate_summary"
-            }
+            result = actions.generate_summary(docs_texts)
+            action_name = "generate_summary"
+            action_result = result
 
-        # Fallback: generate answer using LLM and retrieved context
-        ai_answer = generate_response(user_query, context_text)
+        # 5. Generate final response using template
+        response = generate_response(
+            prompt=user_query,
+            context=context_text,
+            intent=intent,
+            action_result=action_result or ""
+        )
+
         return {
-            "intent": "general_query",
-            "response": ai_answer,
+            "intent": intent,
+            "response": response,
             "source_docs": context_docs,
-            "confidence": 0.85,
-            "action_invoked": None
+            "confidence": confidence,
+            "action_invoked": action_name
         }
 
     except Exception as exc:
