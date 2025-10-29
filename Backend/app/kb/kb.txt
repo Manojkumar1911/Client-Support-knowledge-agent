@@ -1,0 +1,364 @@
+InextLabs Customer Support FAQ
+Knowledge Base for AI-Based Services
+
+GENERAL QUESTIONS
+
+What is InextLabs?
+InextLabs is an AI-powered service provider that delivers cutting-edge artificial intelligence solutions to businesses and individuals. We specialize in machine learning models, natural language processing, computer vision, and custom AI integrations.
+
+What services does InextLabs offer?
+
+Custom AI model development and training
+
+AI API access and integration
+
+Natural Language Processing (NLP) solutions
+
+Computer Vision and image recognition
+
+Chatbot and conversational AI development
+
+Predictive analytics and data insights
+
+AI consulting and strategy services
+
+Model fine-tuning and optimization
+
+Who can use InextLabs services?
+Our services are designed for businesses of all sizes, developers, researchers, and organizations looking to integrate AI capabilities into their operations.
+
+ACCOUNT MANAGEMENT
+
+How do I create an account?
+
+Visit the InextLabs website
+
+Click "Sign Up" in the top right corner
+
+Enter your email address and create a password
+
+Verify your email through the confirmation link
+
+Complete your profile information
+
+I forgot my password. How do I reset it?
+
+Click "Forgot Password" on the login page
+
+Enter your registered email address
+
+Check your email for a reset link
+
+Follow the link and create a new password
+
+Log in with your new credentials
+
+How do I update my account information?
+Go to Account Settings → Profile → Edit your information → Save Changes
+
+Can I delete my account?
+Yes. Go to Account Settings → Security → Delete Account.
+Note: This action is irreversible and all your data will be permanently removed after 30 days.
+
+BILLING AND PRICING
+
+What pricing plans are available?
+Free Tier: Limited API calls, basic features, community support
+Starter: $29/month - Increased API limits, standard support
+Professional: $99/month - Higher limits, priority support, custom models
+Enterprise: Custom pricing - Unlimited usage, dedicated support, SLA guarantees
+
+What payment methods do you accept?
+Visa, Mastercard, American Express, PayPal, and bank transfers (Enterprise only)
+
+How does billing work?
+Billing is based on your subscription plan and usage. You’ll be charged monthly on your subscription anniversary date. Usage beyond your plan limits incurs additional charges at published rates.
+
+Can I upgrade or downgrade my plan?
+Yes. You can change your plan any time from the Billing section.
+Upgrades take effect immediately. Downgrades take effect next billing cycle.
+
+Do you offer refunds?
+We offer a 14-day money-back guarantee for new subscriptions. Refunds for other situations are evaluated on a case-by-case basis.
+
+How can I view my invoices?
+Go to Account Settings → Billing → Invoice History
+
+API AND INTEGRATION
+
+How do I get API credentials?
+
+Log in to your account
+
+Go to Dashboard → API Keys
+
+Click "Generate New API Key"
+
+Copy and store it securely
+
+What is the API rate limit?
+Free: 1,000 requests/day
+Starter: 10,000 requests/day
+Professional: 100,000 requests/day
+Enterprise: Custom limits
+
+Which programming languages are supported?
+Our API supports any language that can make HTTP requests. We provide SDKs for Python, JavaScript, Java, Ruby, and Go.
+
+Where can I find API documentation?
+At docs.inextlabs.com
+
+How do I handle API errors?
+Check error documentation. Verify your API key, rate limits, and request format.
+
+Can I test the API before purchasing?
+Yes. The Free Tier allows testing all API endpoints with limited usage.
+
+AI MODELS AND FEATURES
+
+What AI models are available?
+
+Text generation and completion
+
+Sentiment analysis
+
+Language translation
+
+Image classification and object detection
+
+Speech-to-text and text-to-speech
+
+Custom trained models
+
+Can I train custom models?
+Yes. Professional and Enterprise plans include custom model training. Contact our sales team for details.
+
+How accurate are the AI models?
+Most models achieve 85–95% accuracy on standard benchmarks.
+
+What languages are supported?
+50+ languages including English, Spanish, French, German, Chinese, Japanese, Arabic, and more.
+
+How long does it take to process requests?
+Text: 100–500ms
+Image: 500ms–2s
+Custom models: Varies by complexity
+
+Can I use AI models offline?
+Enterprise customers can deploy models on-premises or private clouds. Contact sales for details.
+
+DATA AND PRIVACY
+
+How is my data stored?
+Data is encrypted at rest (AES-256) and in transit (TLS 1.3). We use secure cloud infrastructure with redundancies.
+
+Do you train models on my data?
+No. Your data is never used to train public models without consent.
+
+Is my data shared with third parties?
+No. We never sell or share data except as required by law or with your permission.
+
+Are you GDPR compliant?
+Yes. InextLabs is fully compliant with GDPR, CCPA, and related regulations.
+
+How long do you retain my data?
+API logs: 90 days
+Account data: Until deletion
+Enterprise: Custom retention policies
+
+Can I export my data?
+Yes. Account Settings → Data Export
+
+TECHNICAL SUPPORT
+
+How do I contact support?
+Email: support@inextlabs.com
+
+Live chat: Available on website
+Support tickets: Via dashboard
+Phone: Enterprise customers only
+
+What are your support hours?
+Free: Community forum only
+Starter: Email (24–48 hours)
+Professional: Email + chat (12 hours)
+Enterprise: 24/7 with 1-hour SLA
+
+How do I report a bug?
+Send details to bugs@inextlabs.com
+ including:
+
+Description
+
+Steps to reproduce
+
+Expected vs actual behavior
+
+Error logs
+
+Environment details
+
+Where can I find tutorials and guides?
+At learn.inextlabs.com
+
+Do you offer training?
+Yes, for Professional and Enterprise customers.
+
+COMMON ISSUES AND TROUBLESHOOTING
+
+"Authentication Failed"
+
+Verify API key and format
+
+Check key expiration
+
+Ensure account is active
+
+"Rate Limit Exceeded"
+
+Check usage
+
+Upgrade plan
+
+Implement throttling
+
+Contact support if needed
+
+"Invalid Request Format"
+
+Verify JSON
+
+Include required parameters
+
+Set correct content-type header
+
+Slow Response Times
+
+Check network connection
+
+Use closest region
+
+Optimize request complexity
+
+Cache frequent results
+
+Model Not Returning Expected Results
+
+Review input data
+
+Check model parameters
+
+Verify model type
+
+Consider fine-tuning
+
+SECURITY
+
+How do I keep my API key secure?
+
+Never share or commit keys
+
+Use environment variables
+
+Rotate keys regularly
+
+Enable IP whitelisting (Enterprise)
+
+Monitor usage
+
+What certifications do you have?
+SOC 2 Type II, ISO 27001, regular audits.
+
+How do I report security issues?
+Email security@inextlabs.com
+
+SERVICE STATUS AND RELIABILITY
+
+Where can I check service status?
+At status.inextlabs.com
+
+What is your uptime guarantee?
+Professional: 99.5%
+Enterprise: 99.9% (SLA)
+
+How do I get service notifications?
+Subscribe at status.inextlabs.com or enable dashboard alerts.
+
+MIGRATION AND INTEGRATION
+
+Can you help migrate from another AI service?
+Yes. Contact sales@inextlabs.com
+
+Do you integrate with other platforms?
+Yes. Integrations include Salesforce, Slack, Microsoft Teams, Zapier, and more.
+
+Can I use InextLabs in a mobile app?
+Yes. Works with iOS, Android, and cross-platform frameworks.
+
+LEGAL AND COMPLIANCE
+
+What are the Terms of Service?
+Available at inextlabs.com/terms
+
+What is your SLA?
+Details in Enterprise contracts.
+
+Can I use InextLabs for healthcare applications?
+Yes, with HIPAA compliance in Enterprise plans.
+
+GETTING STARTED RESOURCES
+
+Quick Start Guide
+
+Create an account
+
+Generate API key
+
+Install SDK or read API docs
+
+Make your first API call
+
+Review response and iterate
+
+Example Use Cases
+
+Customer service chatbots
+
+Content generation and summarization
+
+Image recognition for quality control
+
+Sentiment analysis
+
+Predictive maintenance
+
+Fraud detection
+
+Best Practices
+
+Implement error handling
+
+Cache results where appropriate
+
+Monitor usage and cost
+
+Start with smaller models and scale
+
+Secure your API keys
+
+Test before production
+
+CONTACT INFORMATION
+
+Support: support@inextlabs.com
+
+Sales: sales@inextlabs.com
+
+Developers: developers@inextlabs.com
+
+Security: security@inextlabs.com
+
+Website: www.inextlabs.com
+
+Documentation: docs.inextlabs.com
+Status Page: status.inextlabs.com

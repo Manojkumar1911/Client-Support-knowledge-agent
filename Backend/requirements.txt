@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+chromadb
+pymongo
+google-generativeai
+sentence-transformers
+python-dotenv
+semantic-kernel

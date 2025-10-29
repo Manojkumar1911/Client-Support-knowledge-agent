@@ -1,0 +1,27 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+npm-debug.log
+
+# Environment and OS files
+.env
+.DS_Store
+
+# Build & cache
+*.log
+.cache/
+dist/
+build/
+
+# Large binary/model files
+*.pyd
+*.dll
+*.so
+*.bin
+*.pt
+*.pth
+*.onnx
