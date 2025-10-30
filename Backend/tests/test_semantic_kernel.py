@@ -1,6 +1,6 @@
 """Tests for the semantic kernel agent with improved intent detection and response formatting."""
 import pytest
-from app.core.semantic_kernel_agent import semantic_kernel_orchestrator
+from Backend.app.core.semantic_kernel_orchestrator import semantic_kernel_orchestrator
 from app.llm.llm_client import is_greeting, parse_intent_response
 
 # Test greeting detection

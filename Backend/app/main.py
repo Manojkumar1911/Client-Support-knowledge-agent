@@ -23,6 +23,10 @@ app.include_router(chat_router, prefix="/api", tags=["Chat"])
 def root():
     return {"message": "✅ Support AI Backend running successfully!"}
 
+@app.get("/v1/models")
+def get_models():
+    return {"data": [{"id": "gpt-4o", "object": "model"}, {"id": "gpt-3.5-turbo", "object": "model"}]}
+
 
 # Run server directly with `python app/main.py`
 if __name__ == "__main__":

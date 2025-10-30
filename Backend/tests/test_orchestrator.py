@@ -2,7 +2,7 @@
 import pytest
 from typing import Dict, Any
 
-from app.core import semantic_kernel_agent as orchestrator
+from Backend.app.core import semantic_kernel_orchestrator as orchestrator
 from app.llm import llm_client
 from app.core.rag_engine import rag_engine
 
