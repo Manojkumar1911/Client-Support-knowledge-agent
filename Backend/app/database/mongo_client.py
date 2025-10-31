@@ -91,7 +91,7 @@ def save_chat(user_id: str, query: str, response: str, *, action_invoked: Option
             "extra": extra or {},
             "created_at": datetime.utcnow(),
         }
-        if chat_collection:
+        if chat_collection is not None:
             chat_collection.insert_one(chat_document)
     except Exception as e:
         logger.error(f"Failed to save chat to MongoDB: {e}")

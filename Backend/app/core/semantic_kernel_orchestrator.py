@@ -19,6 +19,7 @@ from semantic_kernel.contents.chat_history import ChatHistory
 from semantic_kernel.contents import ChatMessageContent, AuthorRole
 from app.core.rag_engine import rag_engine
 from app.core import actions
+from app.core.semantic_kernel_integration import process_with_semkernel
 
 logger = logging.getLogger(__name__)
 
@@ -248,6 +249,13 @@ Current user ID: {user_id or 'unknown'}
         response = await chat_service.get_chat_message_contents(chat_history=chat_history, settings=execution_settings, kernel=kernel)
         response_text = response[0].content if response else "I couldn't generate a response."
 
+        # If the LLM responded with a raw tool invocation (e.g., ```tool_code```),
+        # fall back to the prompt-based orchestrator which formats KB answers.
+        stripped_response = (response_text or "").strip()
+        if stripped_response.startswith("```") or "tool_code" in stripped_response:
+            logger.warning("SK returned tool invocation text; falling back to prompt-based orchestrator")
+            return await process_with_semkernel(query=user_query, user_id=user_id)
+
         intent = "general_query"
         action_invoked = None
         confidence = 0.8
@@ -280,10 +288,4 @@ Current user ID: {user_id or 'unknown'}
 
     except Exception as e:
         logger.exception(f"Semantic Kernel orchestration failed: {e}")
-        return {
-            "intent": "error",
-            "response": "I apologize, but I encountered an error processing your request. Please try again.",
-            "source_docs": [],
-            "confidence": 0.0,
-            "action_invoked": None
-        }
+        return await process_with_semkernel(query=user_query, user_id=user_id)
